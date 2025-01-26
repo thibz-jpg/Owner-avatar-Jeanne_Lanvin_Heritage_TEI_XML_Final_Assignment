@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?xml-model href="myGenerated.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<?xml-model href="myGenerated.rng" type="application/xml" schematypens="http://purl.oclc.org/dsdl/schematron"?>
+<TEI xmlns="http://www.tei-c.org/ns/1.0">
+   <teiHeader>
+      <fileDesc>
+         <titleStmt>
+            <title>Encoding of a letter from Jeanne Lanvin from 1923</title>
+            <author>Georgette Languet</author>
+            <respStmt>
+               <resp>Compiled by</resp>
+               <name>Thibault Sabin</name>
+            </respStmt>
+         </titleStmt>
+         <publicationStmt>
+            <publisher>Unknown</publisher>
+            <pubPlace>Paris</pubPlace>
+            <date when="2025-01-18">18-01-2025</date>
+         </publicationStmt>
+         <sourceDesc>
+            <msDesc>
+               <msIdentifier>
+                  <country>Unknown</country>
+                  <settlement>Unknown</settlement>
+                  <repository>Unknown</repository>
+                  <idno>Unknown</idno>
+               </msIdentifier>
+               <msContents>
+                  <p>Letter from Jeanne Lanvin to Madame Dethan Roullet about the replacement of a platinum blouse. It could be Marie-Thérèse Dethan-Roullet, a french painter.</p>
+               </msContents>
+               <physDesc>
+                  <objectDesc>
+                     <supportDesc>
+                        <extent>
+                           <dimensions>
+                              <height unit="mm">270</height>
+                              <width unit="mm">210</width>
+                           </dimensions>
+                        </extent>
+                        <condition>Excellent condition</condition>
+                     </supportDesc>
+                  </objectDesc>
+                  <decoDesc>
+                     <p>Lanvin's famous mother-and-child logo designed in 1924, symbolizing her bond with her daughter Marguerite.</p>
+                  </decoDesc>
+               </physDesc>
+            </msDesc>
+         </sourceDesc>
+      </fileDesc>
+      <profileDesc>
+         <langUsage>
+            <language ident="fr">français</language>
+         </langUsage>
+         <textClass>
+            <keywords scheme="type">
+               <term>Commercial correspondence</term>
+            </keywords>
+         </textClass>
+         <correspDesc>
+            <correspAction type="sent">
+               <persName>Jeanne Lanvin</persName>
+               <address>
+                  <addrLine>22, FAUBOURG ST HONORE</addrLine>
+               </address>
+               <placeName>PARIS</placeName>
+               <date when="1923-12-13">le 13 Décembre 1923</date>
+            </correspAction>
+            <correspAction type="received">
+               <persName>Madame DETHAN ROULLET</persName>
+               <address>
+                  <addrLine>New York Hotel</addrLine>
+                  <addrLine>NICE</addrLine>
+               </address>
+            </correspAction>
+         </correspDesc>
+      </profileDesc>
+      <encodingDesc>
+         <editorialDecl>
+            <hyphenation eol="none">
+               <p>Hyphenated words that appear at the end of the line in the Foner edition have been
+                  reformed.</p>
+            </hyphenation>
+         </editorialDecl>
+      </encodingDesc>
+  </teiHeader>
+  <text>
+      <front>
+         <head>
+            <figure>
+               <figDesc>Lanvin's famous mother-and-child logo designed in 1924, symbolizing her bond with her daughter Marguerite.</figDesc>
+            </figure>
+            <persName>Jeanne Lanvin</persName>
+            <address>
+               <addrLine>22, FAUBOURG ST HONORE</addrLine>
+            </address>
+            <num type="phoneNumber">
+               <address>
+                  <addrLine>TELEPHONES ELYSEES</addrLine>
+               </address>
+               <num>17-88-17-89</num>
+            </num>
+            <num type="telegraphicAddress">ADRESSE TELEGRAPHIQUE : JEANANVIN-PARIS</num>
+         </head>
+      </front>
+      <body>
+         <opener>
+            <dateline>
+               <placeName>PARIS</placeName>
+               <date when="1923-12-13">le 13 Décembre 1923</date>
+            </dateline>
+            <address>
+               <persName>Madame DETHAN ROULLET</persName>
+               <addrLine>New York Hotel</addrLine>
+               <addrLine>NICE</addrLine>
+            </address>
+            <salute>Madame,</salute>
+         </opener>
+         <p>Nous vous confirmons notre lettre du <date when="1923-11-05">5 Novembre</date></p> 
+         <p>et vous prions de bien vouloir nous dire si l'<garment type="sample">échantillon</garment> que nous vous avions envoyé pour remplacer votre</p>
+         <p><garment type="blouse">blouse</garment> <fabric type="color">PLATINE</fabric> vous convient. Nous nous mettons à votre entière disposition pour vous en refaire une autre et attendons vos instructions pour savoir ce que nous devons faire.</p>
+         <p>Nous vous rappelons qu'en ce moment notre Succursale de <placeName>Cannes</placeName> est ouverte.</p>
+      </body>
+      <back>
+         <closer>
+            <salute><orig>Hepèrant</orig> y avoir le plaisir de votre aimable visite, nous vous prions d'agréer, Madame, nos salutations empressées.</salute>
+            <signed>
+               <name>Pour Madame Jeanne LANVIN.</name>
+               <figure>
+                  <figDesc>handwritten signature from Georgette Languet</figDesc>
+               </figure>
+            </signed>
+         </closer>
+         <note place="margin">
+            <p>vendeuse : Mlle LANGUET</p>
+            <p>TOUS LES MODELES LANVIN SONT DEPOSES</p>
+            <p>QUICONQUE LES COPIE S'EXPOSE AUX RIGUEURS DE LA LOI DU 14 JUILLET 1909 POUR CONTREFACON</p>
+            <p>TRIBUNAL DE COMMERCE DE LA SEINE <gap></gap></p>
+         </note>
+      </back>
+  </text>
+</TEI>

@@ -1,0 +1,512 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xmlns="http://www.tei-c.org/ns/1.0" xml:lang="en">
+   <teiHeader>
+      <fileDesc>
+         <titleStmt>
+            <title type="short">oddbyexample</title>
+            <title>Customization for Jeanne Lanvin letters encoding</title>
+         </titleStmt>
+         <publicationStmt>
+            <authority>Thibault Sabin</authority>
+            <availability status="free">
+               <licence target="http://creativecommons.org/licenses/by-sa/3.0/"> Distributed under a Creative Commons Attribution-ShareAlike 4.0 </licence>
+            </availability>
+         </publicationStmt>
+         <sourceDesc>
+            <p>Derived from <ref target="https://www.tei-c.org/Vault/P5/current/xml/tei/odd/p5subset.xml">base odd</ref> after an analysis of 4 files in ./</p>
+         </sourceDesc>
+      </fileDesc>
+      <encodingDesc>
+         <ab>teiHeader</ab>
+         <p>I've given each document an indicative title. I've added informations about the place of preservation when known. I've also added the dimensions when indicated. A short summary explains what the document is about. These are letters, so there is also information about the addressee as well as the sender.</p>
+         <ab>Encoding of the document</ab>
+         <ab>The front</ab>
+         <p>The letterhead includes information such as store addresses, telephone and telegraph numbers. As the years went by, the letterhead became more complete, with the brand logo appearing in 1924, boutiques expanding and opening all over France and abroad, and telephone and telegraph services becoming more widespread. I've tried to structure those informations as best I can.</p>
+         <ab>The body</ab>
+         <p>I've tagged dates, people, organizations and places.</p>
+         <p>I've created tags to highlight different elements that seem relevant to me: sums of money, types of garments and fabric characteristics.</p>
+         <p>I've also pointed out where there are handwritten corrections on the documents, where there are spelling or conjugation errors but without correcting them.</p>
+         <p>I've described all the footnotes and margin markings.</p>
+         <ab>Customizations</ab>
+         <p>I encountered validation problems. I had to revise the specification of <gi>msIdentifier</gi>, <gi>place</gi> so that the tag accepts <gi>settlement</gi>, and I specified that <gi>text</gi> must contain <gi>front</gi>, <gi>body</gi>, <gi>back</gi>.</p>
+         <p>I've changed the <att>unit</att> used on <gi>height</gi> and <gi>width</gi> so it allowed the unit of measure.</p>
+         <p>I've specified that <gi>pb</gi>, for page break, must contain text.</p>
+         <p>I've specified that <gi>p</gi> must allowed <gi>pb</gi>, <gi>orgName</gi>, <gi>garment</gi>, <gi>fabric</gi>, <gi>num</gi>, <gi>name</gi>, <gi>placeName</gi>, <gi>date</gi>, <gi>gap</gi>, <gi>reg</gi>, <gi>add</gi>, <gi>orig</gi>. I had trouble because I placed these elements in <gi>sequence</gi> because <gi>choice</gi> and <gi>mixed</gi> didn't work. But this implies a definite order of appearance of the elements. That's why in my encoded documents, the <gi>p</gi> are not always representative of the reality of the documents, but I haven't found any other solution.</p>
+         <p>I've specified a Schematron rule to ensure <gi>pb</gi> appears at the start of a <gi>p</gi>.</p>
+         <p>I've changed the <att>type</att> used on <gi>num</gi> and created a closed list of attribute values so it can be either <val>frenchFranc</val> or <val>euro</val> or <val>usDollar</val> for the various currencies, or <val>phoneNumber</val> or <val>telegraphicAddress</val> for contact numbers.</p>
+         <p>I've specified that <gi>address</gi> must allowed <gi>persName</gi>, <gi>addrLine</gi> and <gi>num</gi>.</p>
+         <p>I've created the <att>role</att> used on <gi>name</gi> so it specifies the role of the person.</p>
+         <p>I've created <gi>garment</gi> to tag all garments mentioned in my documents. It can only contain text and has no other children elements. The values of <att>type</att> used on it are not specified. I added a schematron rule so that <att>type</att> must be defined.</p>
+         <p>I've created <gi>fabric</gi> to tag all fabric characteristics mentioned in my documents. It can only contain text and has no other children elements. The values of <att>type</att> used on it are specified, they are color, density, texture, opacity and finish and treatment. I added a schematron rule so that <att>type</att> must be defined.</p>
+      </encodingDesc>
+   </teiHeader>
+   <text>
+      <body>
+         <head>
+            <desc>A customization for the encoding project of Jeanne Lanvin letters</desc>
+         </head>
+         <schemaSpec ident="oddbyexample" start="TEI ">
+            <moduleRef key="msdescription" include="msDesc msIdentifier repository msContents physDesc objectDesc supportDesc dimensions height width condition decoDesc"/>
+            <!-- I replace the specification of <msIdentifier> from "msdescription", because it was not validating.  -->
+            <elementSpec ident="msIdentifier" mode="replace">
+               <content>
+                  <sequence>
+                     <elementRef key="country" minOccurs="1" maxOccurs="1"/>
+                     <elementRef key="settlement" minOccurs="1" maxOccurs="1"/>
+                     <elementRef key="repository" minOccurs="1" maxOccurs="1"/>
+                     <elementRef key="idno" minOccurs="1" maxOccurs="1"/>
+                  </sequence>
+               </content>
+            </elementSpec>
+            <moduleRef key="namesdates" include="country settlement persName placeName listPlace place orgName"/>
+            <!-- <place> from "namesdates" must allowed <settlement>, because it was not validating. -->
+            <elementSpec ident="place" mode="change">
+               <content>
+                     <elementRef key="settlement" minOccurs="0" maxOccurs="unbounded"/> 
+               </content>
+            </elementSpec>
+            <moduleRef key="figures" include="figure figDesc"/>
+            <moduleRef key="dictionaries" include="number"/>
+            <moduleRef key="tei"/>
+            <!--Checking module textcrit-->
+            <classRef key="att.textCritical"/>
+            <classRef key="model.rdgLike"/>
+            <classRef key="model.rdgPart"/>
+            <classSpec ident="att.textCritical" type="atts" mode="change">
+               <attList>
+                  <attDef ident="type" mode="delete"/>
+                  <attDef ident="cause" mode="delete"/>
+                  <attDef ident="varSeq" mode="delete"/>
+                  <attDef ident="require" mode="delete"/>
+               </attList>
+            </classSpec>
+            <!--Checking module msdescription-->
+            <classRef key="model.physDescPart"/>
+            <!--Checking module namesdates-->
+            <classRef key="model.persNamePart"/>
+            <!--Checking module dictionaries-->
+            <classRef key="att.lexicographic"/>
+            <classRef key="model.entryLike"/>
+            <classRef key="model.formPart"/>
+            <classRef key="model.gramPart"/>
+            <classRef key="model.lexicalRefinement"/>
+            <classRef key="model.morphLike"/>
+            <classRef key="model.ptrLike.form"/>
+            <classSpec ident="att.lexicographic" type="atts" mode="change">
+               <attList>
+                  <attDef ident="expand" mode="delete"/>
+                  <attDef ident="split" mode="delete"/>
+                  <attDef ident="value" mode="delete"/>
+                  <attDef ident="location" mode="delete"/>
+                  <attDef ident="mergedIn" mode="delete"/>
+                  <attDef ident="opt" mode="delete"/>
+               </attList>
+            </classSpec>
+            <!--Checking module tagdocs-->
+            <classRef key="att.combinable"/>
+            <classRef key="att.identified"/>
+            <classRef key="model.contentPart"/>
+            <classSpec ident="att.combinable" type="atts" mode="change">
+               <attList>
+                  <attDef ident="mode" mode="delete"/>
+               </attList>
+            </classSpec>
+            <classSpec ident="att.identified" type="atts" mode="change">
+               <attList>
+                  <attDef ident="ident" mode="delete"/>
+                  <attDef ident="predeclare" mode="delete"/>
+                  <attDef ident="module" mode="delete"/>
+               </attList>
+            </classSpec>
+            <classSpec ident="att.ascribed.directed" type="atts" mode="change">
+               <attList>
+                  <attDef ident="toWhom" mode="delete"/>
+               </attList>
+            </classSpec>
+            <classSpec ident="att.dimensions" type="atts" mode="change">
+               <attList>
+                  <attDef ident="unit" mode="delete"/>
+                  <attDef ident="quantity" mode="delete"/>
+                  <attDef ident="extent" mode="delete"/>
+                  <attDef ident="precision" mode="delete"/>
+                  <attDef ident="scope" mode="delete"/>
+               </attList>
+            </classSpec>
+            <classSpec ident="att.damaged" type="atts" mode="change">
+               <attList>
+                  <attDef ident="agent" mode="delete"/>
+                  <attDef ident="degree" mode="delete"/>
+                  <attDef ident="group" mode="delete"/>
+               </attList>
+            </classSpec>
+            <classSpec ident="att.datable.w3c" type="atts" mode="change">
+               <attList>
+                  <attDef ident="from" mode="delete"/>
+                  <attDef ident="to" mode="delete"/>
+               </attList>
+            </classSpec>
+            <classSpec ident="att.datable" type="atts" mode="change">
+               <attList>
+                  <attDef ident="period" mode="delete"/>
+               </attList>
+            </classSpec>
+            <classSpec ident="att.divLike" type="atts" mode="change">
+               <attList>
+                  <attDef ident="org" mode="delete"/>
+                  <attDef ident="sample" mode="delete"/>
+               </attList>
+            </classSpec>
+            <classSpec ident="att.media" type="atts" mode="change">
+               <attList>
+                  <attDef ident="scale" mode="delete"/>
+               </attList>
+            </classSpec>
+            <classSpec ident="att.naming" type="atts" mode="change">
+               <attList>
+                  <attDef ident="role" mode="delete"/>
+                  <attDef ident="nymRef" mode="delete"/>
+               </attList>
+            </classSpec>
+            <classSpec ident="att.typed" type="atts" mode="change">
+               <attList>
+                  <attDef ident="subtype" mode="delete"/>
+               </attList>
+            </classSpec>
+            <classSpec ident="att.pointing" type="atts" mode="change">
+               <attList>
+                  <attDef ident="targetLang" mode="delete"/>
+                  <attDef ident="evaluate" mode="delete"/>
+               </attList>
+            </classSpec>
+            <classSpec ident="att.pointing.group" type="atts" mode="change">
+               <attList>
+                  <attDef ident="domains" mode="delete"/>
+                  <attDef ident="targFunc" mode="delete"/>
+               </attList>
+            </classSpec>
+            <classSpec ident="att.segLike" type="atts" mode="change">
+               <attList>
+                  <attDef ident="function" mode="delete"/>
+               </attList>
+            </classSpec>
+            <classSpec ident="att.timed" type="atts" mode="change">
+               <attList>
+                  <attDef ident="start" mode="delete"/>
+                  <attDef ident="end" mode="delete"/>
+               </attList>
+            </classSpec>
+            <classSpec ident="att.transcriptional" type="atts" mode="change">
+               <attList>
+                  <attDef ident="status" mode="delete"/>
+                  <attDef ident="cause" mode="delete"/>
+                  <attDef ident="seq" mode="delete"/>
+               </attList>
+            </classSpec>
+            <classSpec ident="att.personal" type="atts" mode="change">
+               <attList>
+                  <attDef ident="full" mode="delete"/>
+                  <attDef ident="sort" mode="delete"/>
+               </attList>
+            </classSpec>
+            <!-- I change the <att>unit</att> used on <gi>height</gi> so it allowed the unit of measure-->
+            <elementSpec ident="height" mode="change">
+               <attList>
+                  <attDef ident="unit">
+                     <datatype>
+                        <dataRef key="string"/>
+                     </datatype>
+                  </attDef>
+               </attList>
+            </elementSpec>
+            <!-- I change the <att>unit</att> used on <gi>width</gi> so it allowed the unit of measure-->
+            <elementSpec ident="width" mode="change">
+               <attList>
+                  <attDef ident="unit">
+                     <datatype>
+                        <dataRef key="string"/>
+                     </datatype>
+                  </attDef>
+               </attList>
+            </elementSpec>
+            <!--Checking module core-->
+            <moduleRef key="core"
+                       include="p hi desc term name date abbr ptr ref head graphic title publisher author respStmt resp pubPlace address addrLine note reg add orig num pb gap"/>
+            <elementSpec ident="desc" mode="change">
+               <attList>
+                  <attDef ident="type" mode="delete"/>
+                  <attDef ident="type" mode="delete"/>
+               </attList>
+            </elementSpec>
+            <elementSpec ident="term" mode="change">
+               <attList>
+                  <attDef ident="target" mode="delete"/>
+                  <attDef ident="type" mode="change">
+                     <valList mode="add" type="closed">
+                        <valItem ident="bla"/>
+                     </valList>
+                  </attDef>
+               </attList>
+            </elementSpec>
+            <elementSpec ident="name" mode="change">
+               <attList>
+                  <attDef ident="calendar" mode="delete"/>
+                  <attDef ident="when" mode="delete"/>
+                  <attDef ident="notBefore" mode="delete"/>
+                  <attDef ident="notAfter" mode="delete"/>
+                  <attDef ident="type" mode="delete"/>
+               </attList>
+            </elementSpec>
+            <elementSpec ident="date" mode="change">
+               <attList>
+                  <attDef ident="type" mode="delete"/>
+               </attList>
+            </elementSpec>
+            <elementSpec ident="abbr" mode="change">
+               <attList>
+                  <attDef ident="type" mode="delete"/>
+                  <attDef ident="type" mode="delete"/>
+               </attList>
+            </elementSpec>
+            <elementSpec ident="ptr" mode="change">
+               <attList>
+                  <attDef ident="mimeType" mode="delete"/>
+                  <attDef ident="type" mode="delete"/>
+               </attList>
+            </elementSpec>
+            <elementSpec ident="ref" mode="change">
+               <attList>
+                  <attDef ident="type" mode="delete"/>
+               </attList>
+            </elementSpec>
+            <elementSpec ident="head" mode="change">
+               <attList>
+                  <attDef ident="type" mode="delete"/>
+               </attList>
+            </elementSpec>
+            <elementSpec ident="graphic" mode="change">
+               <attList>
+                  <attDef ident="type" mode="delete"/>
+               </attList>
+            </elementSpec>
+            <elementSpec ident="title" mode="change">
+               <attList>
+                  <attDef ident="calendar" mode="delete"/>
+                  <attDef ident="level" mode="delete"/>
+                  <attDef ident="type" mode="delete"/>
+                  <attDef ident="type" mode="delete"/>
+                  <attDef ident="when" mode="delete"/>
+                  <attDef ident="notBefore" mode="delete"/>
+                  <attDef ident="notAfter" mode="delete"/>
+               </attList>
+            </elementSpec>
+            <!-- <pb> represents a page break and contains text. -->
+            <elementSpec ident="pb" mode="change">
+               <content>
+                  <textNode/>
+               </content>
+            </elementSpec>
+            <!-- <p> from "core", must allowed <pb>, <orgName>, <garment>, <fabric>, <num>, <name>, <placeName>, <date>, <gap>, <reg>, <add>, <orig>. -->
+            <elementSpec ident="p" mode="change">
+               <content>
+                  <sequence>
+                     <elementRef key="pb" minOccurs="0" maxOccurs="unbounded"/>
+                     <textNode/> <!-- Allowed free text -->
+                     <elementRef key="orgName" minOccurs="0" maxOccurs="unbounded"/>
+                     <textNode/> <!-- Allowed free text -->
+                     <elementRef key="garment" minOccurs="0" maxOccurs="unbounded"/>
+                     <textNode/> <!-- Allowed free text -->
+                     <elementRef key="fabric" minOccurs="0" maxOccurs="unbounded"/>
+                     <textNode/> <!-- Allowed free text -->
+                     <elementRef key="num" minOccurs="0" maxOccurs="unbounded"/>
+                     <textNode/> <!-- Allowed free text -->
+                     <elementRef key="name" minOccurs="0" maxOccurs="unbounded"/>
+                     <textNode/> <!-- Allowed free text -->
+                     <elementRef key="placeName" minOccurs="0" maxOccurs="unbounded"/>
+                     <textNode/> <!-- Allowed free text -->
+                     <elementRef key="date" minOccurs="0" maxOccurs="unbounded"/>
+                     <textNode/> <!-- Allowed free text -->
+                     <elementRef key="gap" minOccurs="0" maxOccurs="unbounded"/>
+                     <textNode/> <!-- Allowed free text -->
+                     <elementRef key="reg" minOccurs="0" maxOccurs="unbounded"/>
+                     <textNode/> <!-- Allowed free text -->
+                     <elementRef key="add" minOccurs="0" maxOccurs="unbounded"/>
+                     <textNode/> <!-- Allowed free text -->
+                     <elementRef key="orig" minOccurs="0" maxOccurs="unbounded"/>
+                     <textNode/> <!-- Allowed free text -->
+                  </sequence>
+               </content>
+            </elementSpec>
+            <!-- Custom rule to ensure <gi>pb</gi> appears at the start of a <gi>p</gi>. -->
+            <elementSpec ident="p" mode="change">
+               <constraintSpec ident="pb-position" scheme="schematron" xmlns:sch="http://purl.oclc.org/dsdl/schematron">
+                  <constraint>
+                     <sch:report test="not(preceding-sibling::*[self::pb] or preceding-sibling::text())">The pb element must be the first logical content of a p element.</sch:report>
+                  </constraint>
+               </constraintSpec>
+            </elementSpec>
+            <!-- I change the <att>type</att> used on <gi>num</gi> and create a closed list of attribute values so it can be either <val>frenchFranc</val> or <val>euro</val> or <val>usDollar</val> for the various currencies, or <val>phoneNumber</val> or <val>telegraphicAddress</val> for contact numbers. -->
+            <elementSpec ident="num" mode="change">
+               <attList>
+                  <attDef ident="type" mode="replace" usage="rec">
+                     <valList type="closed">
+                        <valItem ident="frenchFranc"/>
+                        <valItem ident="euro"/>
+                        <valItem ident="usDollar"/>
+                        <valItem ident="phoneNumber"/>
+                        <valItem ident="telegraphicAddress"/>
+                     </valList>
+                  </attDef>
+               </attList>
+            </elementSpec>
+            <!-- <gi>address</gi> from "core" must allowed <gi>persName</gi>, <gi>addrLine</gi> and <gi>num</gi>. -->
+            <elementSpec ident="address" mode="change">
+               <content>
+                  <sequence>
+                     <elementRef key="persName" minOccurs="0" maxOccurs="unbounded"/>
+                     <elementRef key="addrLine" minOccurs="0" maxOccurs="unbounded"/>
+                     <elementRef key="num" minOccurs="0" maxOccurs="unbounded"/>
+                  </sequence>
+               </content>
+            </elementSpec>
+            <!-- I create the <att>role</att> used on <gi>name</gi> so it specifies the role of the person. -->
+            <elementSpec ident="name" mode="change">
+               <attList>
+                  <attDef ident="role" usage="opt">
+                     <desc>The role attribute is used to describe the role of the person (e.g., politician, artist, etc.).</desc>
+                     <datatype minOccurs="0" maxOccurs="1">
+                        <dataRef key="teidata.word"/>
+                     </datatype>
+                  </attDef>
+               </attList>
+            </elementSpec>
+            <!--Checking module figures-->
+            <!--Checking module header-->
+            <moduleRef key="header"
+               include="teiHeader fileDesc titleStmt publicationStmt sourceDesc revisionDesc change encodingDesc profileDesc idno extent langUsage language textClass keywords correspDesc correspAction editorialDecl hyphenation"/>
+            <elementSpec ident="change" mode="change">
+               <attList>
+                  <attDef ident="calendar" mode="delete"/>
+                  <attDef ident="target" mode="delete"/>
+                  <attDef ident="when" mode="delete"/>
+                  <attDef ident="notBefore" mode="delete"/>
+                  <attDef ident="notAfter" mode="delete"/>
+                  <attDef ident="type" mode="delete"/>
+               </attList>
+            </elementSpec>
+            <!--Checking module gaiji-->
+            <classRef key="att.gaijiProp"/>
+            <classSpec ident="att.gaijiProp" type="atts" mode="change">
+               <attList>
+                  <attDef ident="name" mode="delete"/>
+                  <attDef ident="value" mode="delete"/>
+                  <attDef ident="version" mode="delete"/>
+                  <attDef ident="scheme" mode="delete"/>
+               </attList>
+            </classSpec>
+            <!--Checking module verse-->
+            <!--Checking module transcr-->
+            <!--Checking module linking-->
+            <!--Checking module analysis-->
+            <classRef key="att.linguistic"/>
+            <classSpec ident="att.linguistic" type="atts" mode="change">
+               <attList>
+                  <attDef ident="lemma" mode="delete"/>
+                  <attDef ident="lemmaRef" mode="delete"/>
+                  <attDef ident="pos" mode="delete"/>
+                  <attDef ident="msd" mode="delete"/>
+                  <attDef ident="join" mode="delete"/>
+               </attList>
+            </classSpec>
+            <!--Checking module textstructure-->
+            <moduleRef key="textstructure" include="TEI text body div front back opener dateline salute closer signed"/>
+            <elementSpec ident="TEI" mode="change">
+               <attList>
+                  <attDef ident="version" mode="delete"/>
+                  <attDef ident="type" mode="delete"/>
+               </attList>
+            </elementSpec>
+            <elementSpec ident="text" mode="change">
+               <attList>
+                  <attDef ident="type" mode="delete"/>
+               </attList>
+            </elementSpec>
+            <elementSpec ident="div" mode="change">
+               <attList>
+                  <attDef ident="type" mode="change">
+                     <valList mode="add" type="closed">
+                        <valItem ident="section"/>
+                        <valItem ident="subsection"/>
+                     </valList>
+                  </attDef>
+               </attList>
+            </elementSpec>
+            <!-- I replace the specification of <text> from "textstructure", it must contains <front>, <body>, <back>.  -->
+            <elementSpec ident="text" mode="change">
+               <content>
+                  <sequence>
+                     <elementRef key="front" minOccurs="1" maxOccurs="1"/>
+                     <elementRef key="body" minOccurs="1" maxOccurs="1"/>
+                     <elementRef key="back" minOccurs="1" maxOccurs="1"/>
+                  </sequence>
+               </content>
+            </elementSpec>
+            <!-- NEW ELEMENT SPEC FOR GARMENT-->
+            <elementSpec ident="garment">
+               <desc>This element allows me to tag all garments mentioned in my documents. It can only contain text and has no other children elements.</desc>
+               <classes>
+                  <memberOf key="att.global"/><!-- It can have all attributes. -->
+               </classes>
+               <content>
+                  <textNode/>
+               </content>
+               <attList>
+                  <attDef ident="type" usage="req">
+                     <desc>The attribute <att>type</att> used on <gi>garment</gi> elements allows me to group garments by type. This attribute is required on all <gi>garment</gi> elements. The value of the <att>type</att> aren't pre-defined.</desc>
+                     <datatype minOccurs="1" maxOccurs="1">
+                        <dataRef key="teidata.word"/>
+                     </datatype>
+                  </attDef>
+               </attList>
+            </elementSpec>
+            <elementSpec ident="garment" mode="change">
+            <!-- Custom rule so that <garment> always has a <att>type</att>. -->
+               <constraintSpec ident="type" scheme="schematron" xmlns:sch="http://purl.oclc.org/dsdl/schematron">
+                  <constraint>
+                     <sch:assert test="@type">The attribute type must be defined for the garment element.</sch:assert>
+                  </constraint>
+               </constraintSpec>
+            </elementSpec>
+            <!-- NEW ELEMENT SPEC FOR FABRIC-->
+            <elementSpec ident="fabric">
+               <desc>This element allows me to tag all fabric characteristics mentioned in my documents. It can only contain text and has no other children elements.</desc>
+               <classes>
+                  <memberOf key="att.global"/><!-- It can have all attributes. -->
+               </classes>
+               <content>
+                  <textNode/>
+               </content>
+               <attList>
+                  <attDef ident="type" usage="req">
+                     <desc>The attribute <att>type</att> used on <gi>fabric</gi> elements allows me to group fabric characteristics. This attribute is required on all <gi>fabric</gi> elements. The value of the <att>type</att> are pre-defined.</desc>
+                     <valList type="closed">
+                        <valItem ident="color"/>
+                        <valItem ident="density"/>
+                        <valItem ident="texture"/>
+                        <valItem ident="opacity"/>
+                        <valItem ident="finish and treatment"/>
+                     </valList>
+                  </attDef>
+               </attList>
+            </elementSpec>
+            <elementSpec ident="fabric" mode="change">
+               <!-- Custom rule so that <fabric> always has a <att>type</att>. -->
+               <constraintSpec ident="type" scheme="schematron" xmlns:sch="http://purl.oclc.org/dsdl/schematron">
+                  <constraint>
+                     <sch:assert test="@type">The attribute type must be defined for the fabric element.</sch:assert>
+                  </constraint>
+               </constraintSpec>
+            </elementSpec>
+         </schemaSpec>
+      </body>
+   </text>
+</TEI>
